@@ -1,0 +1,38 @@
+html {
+  height: 100%;
+  overflow: hidden;
+  background-color: white;
+}
+
+body {
+  font-size: 23px;
+  margin: 0px;
+  padding: 0px;
+  background-color: white;
+  color: #262c2c;
+  font-family: 'Courier';
+  height: 100%;
+}
+
+a,
+a:visited {
+  color: #e62dc6;
+}
+
+article {
+  width: 32em;
+  border-radius: 2px;
+  padding: 2em;
+  margin: 3em auto 0px auto;
+  background-color: #f8f9f9;
+  box-shadow: 3px 3px 5px #333333;
+}
+
+article ul {
+  padding: 0px;
+  list-style: none;
+}
+
+article ul li {
+  margin-bottom: 0.4em;
+}
