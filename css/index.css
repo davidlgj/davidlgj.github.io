@@ -216,7 +216,7 @@ main video {
 
 /* Head */
 header {
-  width: 100vw;
+  width: 100%;
   font-size: 20px;
   text-transform: uppercase;
   text-decoration: none;
