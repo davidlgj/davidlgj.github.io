@@ -1,16 +1,16 @@
 {
-  "title": "Your Blog Name",
-  "url": "https://myurl.com/",
-  "description": "I am writing about my experiences as a naval navel-gazer.",
+  "title": "David jensen -  Unfinished",
+  "url": "http://burningbroccoli.se/",
+  "description": "David Jensen - Personal site. Where unfinished projects come to slowly fade into oblivion.",
   "feed": {
-    "subtitle": "I am writing about my experiences as a naval navel-gazer.",
+    "subtitle": "Unfinished projects",
     "filename": "feed.xml",
     "path": "/feed/feed.xml",
-    "url": "https://myurl.com/feed/feed.xml",
-    "id": "https://myurl.com/"
+    "url": "http://burningbroccoli.se/feed/feed.xml",
+    "id": "http://burningbroccoli.se/"
   },
   "author": {
-    "name": "Your Name Here",
-    "email": "youremailaddress@example.com"
+    "name": "David Jensen",
+    "email": "david.lgj@gmail.com"
   }
 }

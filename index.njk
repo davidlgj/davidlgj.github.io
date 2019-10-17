@@ -1,13 +1,51 @@
 ---
 layout: layouts/home.njk
-tags:
-  - nav
-navtitle: Home
 ---
+<main>
+  <article>
+      <img alt="David Jensen" src="img/gron-ruta.jpg">
+      <h1>unfinished projects</h1>
+      <p>
+        Personal projects, aren't they fun? Well, you know what's not so fun? Finishing them.
+        <em>I never do.</em> I've decided to embrace the failure, the promising start and the
+        idea that never really took off. This is where projetcs come to get their heads chopped
+        off and cryogenically frozen. And maybe, maybe in the future they will live again.
+      </p>
+  </article>
 
-<h1>Latest 3 Posts</h1>
+  <article class="about">
+    <h4>More about me</h4>
+    <ul>
+      <li style="unicode-bidi:bidi-override; direction: rtl;">moc.liamg@jgl.divad</li>
+      <li><a href="https://www.instagram.com/looks_alot_like_knitting/">https://www.instagram.com/looks_alot_like_knitting/</a></li>
+      <li><a href="https://github.com/davidlgj">https://github.com/davidlgj</a></li>
+      <li><a href="http://careers.stackoverflow.com/davidlgj">http://careers.stackoverflow.com/davidlgj</a></li>
+      <li><a href="http://se.linkedin.com/pub/david-jensen/39/6b3/582/">http://se.linkedin.com/pub/david-jensen/39/6b3/582/</a></li>
+    </ul>
+  </article>
 
-{% set postslist = collections.posts | head(-3) %}
-{% include "postslist.njk" %}
+  <article>
 
-<p>More posts can be found in <a href="{{ '/posts/' | url }}">the archive</a>.</p>
+    {% set prjlst = collections.projects %}
+
+    <ol class="projects" reversed style="counter-reset: start-from {{ prjlist.length + 1 }}">
+    {% for project in prjlst | reverse %}
+      <li class="project-item">
+        <div class="project-card">
+          <a href="{{ project.url | url }}" class="project-link">{% if project.data.title %}{{ project.data.title }}{% else %}<code>{{ project.url }}</code>{% endif %}</a>
+          <time class="project-date" datetime="{{ project.date | htmlDateString }}">{{ project.date | readableDate }}</time>
+          <p>{{ project.data.description}}</p>
+          {% for tag in project.data.tags %}
+            {%- if tag != "posts" -%}
+            {% set tagUrl %}/tags/{{ tag }}/{% endset %}
+            <a href="{{ tagUrl | url }}" class="tag">{{ tag }}</a>
+            {%- endif -%}
+          {% endfor %}
+        </div>
+      </li>
+    {% endfor %}
+    </ol>
+
+
+  </article>
+</main>

@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The mouse trap</title>
+    <meta name="Description" content="To trap a smart mouse you need... a long tube. And an arduino.">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/prism-dracula.css">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="David jensen -  Unfinished">
+  </head>
+  <body>
+    <header>
+      <h1 class="home"><a href="/">David jensen -  Unfinished</a></h1>
+      <ul class="nav"></ul>
+      <p>Why finish stuff when you can forget about it, and start something new?</p>
+    </header>
+
+    <main class="tmpl-post">
+      <h1>The mouse trap</h1>
+
+<p><img src="/img/mousetrap/sm-rigged.jpeg" alt="rigged trap"></p>
+<p>We had a a problem. It was small furry and super cute. And it pooped
+everywhere. The mouse had already foiled a couple of traditional traps
+we set for it so I knew I had to take matters into my own hands.</p>
+<p>This is actually not an unfinished project. Its not nice looking,
+well built or good code. <strong>But it caught the mouse!</strong></p>
+<h2 id="hardware">Hardware <a class="direct-link" href="#hardware" aria-hidden="true">#</a></h2>
+<ul>
+<li>PVC pipe</li>
+<li>Two metal plates</li>
+<li>Arduino</li>
+<li>Small servo (small enough to be driven directly by the arduino)</li>
+<li>Small metal pin, the kind use to fasten knitting needles</li>
+<li>Duct tape</li>
+<li>Popsicle sticks</li>
+<li>Copper tape (I used the one used for keeping slugs out of your garden)</li>
+<li>Some wooden planks</li>
+<li>Some screws</li>
+</ul>
+<h2 id="build">Build <a class="direct-link" href="#build" aria-hidden="true">#</a></h2>
+<p>The build is quite simple. A trigger at the end of a PVC pipe triggers a
+closing mechanism on the other side. The trick is that the pipe is so long
+the mouse doesn't have a chance to bolt.</p>
+<p><img src="/img/mousetrap/sm-pressure_plate.jpg" alt="trigger with peanut butter"></p>
+<p>The &quot;pressure plate&quot; is to popsicle sticks with copper tape on them.
+A bit of a broken popsicle stick in the middle keeps them from touching
+until the weight of the mouse is on it. Btw peanut butter is great for
+mouse traps.</p>
+<p>The arduino code just polls with a <code>digitalRead</code> and sweeps the servo
+at the first hint of any critters.</p>
+<h3 id="the-guillotine">The guillotine <a class="direct-link" href="#the-guillotine" aria-hidden="true">#</a></h3>
+<video controls>
+    <source src="/img/mousetrap/test.mp4"
+            type="video/mp4">
+<pre><code>Sorry, your browser doesn't support embedded videos.
+</code></pre>
+</video>
+<p>The closing mechanism is super simple, the metal plate is a bit heavy and
+when the servo removes the pin it falls down. Sawing a bit down into the
+wood makes sure the mouse can't push get a hold and push it up.</p>
+
+
+<p><a href="/">← Home</a></p>
+
+    </main>
+
+    <footer></footer>
+
+    <!-- Current page: /projects/mousetrap/ -->
+  </body>
+</html>

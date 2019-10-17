@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The clock</title>
+    <meta name="Description" content="A smart clock with spoilers about todays weather.">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/prism-dracula.css">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="David jensen -  Unfinished">
+  </head>
+  <body>
+    <header>
+      <h1 class="home"><a href="/">David jensen -  Unfinished</a></h1>
+      <ul class="nav"></ul>
+      <p>Why finish stuff when you can forget about it, and start something new?</p>
+    </header>
+
+    <main class="tmpl-post">
+      <h1>The clock</h1>
+
+<video controls>
+    <source src="/img/clock/test.mp4"
+            type="video/mp4">
+<pre><code>Sorry, your browser doesn't support embedded videos.
+</code></pre>
+</video>
+<p>This is a work in progress. I got the idea from a &quot;smart&quot; clock I saw. It was quite nice.
+Looked like a brick with large colorful pixels. Can't find it anymore though. Anyway
+it could show the weather, mail etc. I liked it, but it was expensive (&gt;€100) and closed
+to their app for control.</p>
+<p>A bit later i saw <a href="https://hackaday.com/2019/06/12/ikea-cloud-lamp-displays-the-weather-with-esp8266/">this nice IKEA hack</a>.
+Its a IKEA cloud lamp that changes color depending on the weather and even flashes for
+lightning storms! Very nice.</p>
+<h2 id="the-plan">The plan <a class="direct-link" href="#the-plan" aria-hidden="true">#</a></h2>
+<p>The plan is to build a smart clock for my sons room, it would be super cool if it could
+be the hub for some kind of voice control, but first off I want it to tell what the
+weather will be for the upcoming day. I asked my son, and he'd rather have an analog
+clock instead of a digital, so I bought a cheap ordinary wall clock. It had no numbering,
+I guess to look clean, so that is something I will need to fix in the future.</p>
+<p>I wanted to line the clock with RGB leds so I could mark out the weather approximately
+where the hour mark is. This means the clock can tell the weather for the upcoming 12
+hours.</p>
+<p>I'm planning to use a Raspberry Pi Zero W for the brains of it.</p>
+<h2 id="the-build-so-far">The build so far <a class="direct-link" href="#the-build-so-far" aria-hidden="true">#</a></h2>
+<p><img src="/img/clock/sm-workspace.jpg" alt="clock in my workspace"></p>
+<p>Any sane person would here go and buy a nice Adafruit led
+strip and just line the edge of the clock with it. But I
+like to use what I already have in my stash, and one of the
+things I have are several
+<a href="https://www.adafruit.com/product/1260">Flora Neopixels</a>
+(I bought two 20 packs that where on a ridiculous sale).</p>
+<p>I decided to use 8 of them, to make it a bit easier to solder
+and to not overwhelm the Raspberry Pi Zero.</p>
+<p>The neopixel needs 3 wires, power and a signal, and that
+sinal needs to be chained to the next pixel. That means
+three wires between each of them.</p>
+<p>Looking around my workspace for some wire I happened to see
+some copper tape that I bought to experiment with. The tape
+is supposed to be used in the garden to create a barrier
+for slugs. It has a copper foil over a paper/plastic back.
+So you can't tape a circuit together, but you <em>can</em> solder
+to it!</p>
+<p><img src="/img/clock/sm-threelanes.jpg" alt="copper tape as wires"></p>
+<p>The middle lane of tape is the signal, and since it needs
+to chain the neopixels together I took a flat screwdriver
+and just scraped away a spot where the neopixel should be.</p>
+<p><img src="/img/clock/sm-soldered.jpg" alt="copper tape as wires"></p>
+<p>Works like a charm! I also soldered three wires to it. The plan
+is to drill a hole through the backplate and place the raspberry
+pi zero on the back.</p>
+<p>So now it's time for the software... and that's where it's
+hanging in limbo right now.</p>
+<p><img src="/img/clock/sm-soldered.jpg" alt="copper tape as wires"></p>
+<p>Future plans involve speakers or buzzer for alarm, camera for
+keeping track of intruders (or waving to turn of alarm!)</p>
+
+
+<p><a href="/">← Home</a></p>
+
+    </main>
+
+    <footer></footer>
+
+    <!-- Current page: /projects/theclock/ -->
+  </body>
+</html>
