@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+	<title>David jensen -  Unfinished</title>
+	<subtitle>Unfinished projects</subtitle>
+	<link href="http://burningbroccoli.se/feed/feed.xml" rel="self"/>
+	<link href="http://burningbroccoli.se/"/>
+	<updated>2019-10-05T02:00:00+02:00</updated>
+	<id>http://burningbroccoli.se/</id>
+	<author>
+		<name>David Jensen</name>
+		<email>david.lgj@gmail.com</email>
+	</author>
+	
+	<entry>
+		<title>The knit counter</title>
+		<link href="http://burningbroccoli.se/projects/knitcounter/"/>
+		<updated>2018-06-24T02:00:00+02:00</updated>
+		<id>http://burningbroccoli.se/projects/knitcounter/</id>
+		<content type="html">&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-small_battery_square.jpg&quot; alt=&quot;Knitcounter with small battery&quot;&gt;&lt;/p&gt;
+&lt;p&gt;If you ever find yourself knitting a sweater you may notice that most knitting patterns has instructions like &lt;code&gt;repeat between * and * for 34 rows&lt;/code&gt; or some such. And if you are like me your thoughts might wander,
+and, what row was I on now again?&lt;/p&gt;
+&lt;p&gt;There are a lot of knit counters, and of course a lot apps. I wanted
+mine to be small and light. The dream was to be able to use it as
+the marker for start of round. This ways I couldn&#39;t possible miss
+pressing the button, counting up a new round.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;CURRENT STATUS: broken&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;build&quot;&gt;Build &lt;a class=&quot;direct-link&quot; href=&quot;#build&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-circuit.jpg&quot; alt=&quot;Circuit with attiny85&quot;&gt;&lt;/p&gt;
+&lt;p&gt;You can obviously build this a lot smaller, but I wanted to use stuff
+I already had at home.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;A way to large proto board that I sawed to smaller size.&lt;/li&gt;
+&lt;li&gt;Large 12mm button&lt;/li&gt;
+&lt;li&gt;Small 6mm button&lt;/li&gt;
+&lt;li&gt;A AVR ATTiny85 micro controller&lt;/li&gt;
+&lt;li&gt;A capacitor over the power to smooth it out. I&#39;ve read that
+it&#39;s a good thing to have.&lt;/li&gt;
+&lt;li&gt;0.96 Inches OLED i2c display.&lt;/li&gt;
+&lt;li&gt;A Lithium-Polymer battery.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3 id=&quot;the-micro-controller&quot;&gt;The micro controller &lt;a class=&quot;direct-link&quot; href=&quot;#the-micro-controller&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;The ATTiny85 is a nice little bugger. If you are fine running it at 1MHz
+or 8MHz you don&#39;t need any external crystal, maybe just a capacitor. You
+can fake USB with the
+&lt;a href=&quot;https://www.obdev.at/products/vusb/index.html&quot;&gt;V-USB&lt;/a&gt; project, play sounds
+with the high frequency PWM (at leas higher than a normal arduino). It
+also happens to have a very nice low power mode. You can send it to sleep
+and it will consume very little until an interrupt, triggered on one of
+it&#39;s pins, wakes it up. This is the main reason I choose this particular
+micro controller, more on that later in the &amp;quot;code&amp;quot; section!&lt;/p&gt;
+&lt;p&gt;There are also several Arduino &amp;quot;cores&amp;quot; you can use, so it&#39;s easy to program.&lt;/p&gt;
+&lt;p&gt;I had to build a small circuit so I could program it with my Atmel AVRRISP II.
+&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-isp.jpg&quot; alt=&quot;ISP Circuit&quot;&gt;&lt;/p&gt;
+&lt;p&gt;But you don&#39;t need to use a programmer! I just happen to have one,
+but in this case an &lt;a href=&quot;https://create.arduino.cc/projecthub/arjun/programming-attiny85-with-arduino-uno-afb829&quot;&gt;Arduino will do just fine.&lt;/a&gt;&lt;/p&gt;
+&lt;h3 id=&quot;the-display&quot;&gt;The display &lt;a class=&quot;direct-link&quot; href=&quot;#the-display&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-screen_and_circuit.jpg&quot; alt=&quot;Oled display&quot;&gt;&lt;/p&gt;
+&lt;p&gt;I had a smallish OLED display lying around, a gift from a friend. It is
+rather small, but for displaying just some numbers its quite the overkill.&lt;/p&gt;
+&lt;p&gt;It&#39;s an i2c no-name display, but it has SSD1306 circuit on it like most other! I tried to get Adafruits &lt;a href=&quot;https://github.com/adafruit/Adafruit_SSD1306&quot;&gt;SSD1306&lt;/a&gt; library working with it, but failed.&lt;/p&gt;
+&lt;p&gt;After some googling I found another nice library: &lt;a href=&quot;https://bitbucket.org/tinusaur/ssd1306xled&quot;&gt;tinusaur/ssd1306xled&lt;/a&gt;. With this I got
+some progress!&lt;/p&gt;
+&lt;p&gt;For simplicity I used the font that came with the library, that gave
+quite small numbers, but hey it was a very simple to code 😃&lt;/p&gt;
+&lt;h3 id=&quot;the-code&quot;&gt;The code &lt;a class=&quot;direct-link&quot; href=&quot;#the-code&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;p&gt;The code can be found at &lt;a href=&quot;https://github.com/davidlgj/kniterator&quot;&gt;https://github.com/davidlgj/kniterator&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I wanted the counter to a have a long battery life, preferably months.
+It wouldn&#39;t do if it lost power during a project. Since most of the time
+it just sits there, it&#39;s a perfect match for the deep sleep mode the
+ATTiny85 has.&lt;/p&gt;
+&lt;p&gt;The code is simple, a one push of any of the buttons wakes it up. The
+display lights up and presents the current count. Pressing the large button
+increases the number, the smaller button decreases. After a couple of
+seconds it turns off the display and powers itself down again.&lt;/p&gt;
+&lt;p&gt;There is lots of room for improvement, larger numbers for instance. You
+could also have several counters, use the small button to cycle between
+them. Large button to increase, long click to decrease.&lt;/p&gt;
+&lt;p&gt;I also had plans to save the number to the small EEPROM inside the
+ATTiny85, so it never would loose count!&lt;/p&gt;
+&lt;h2 id=&quot;but-is-it-finished%3F&quot;&gt;But is it finished? &lt;a class=&quot;direct-link&quot; href=&quot;#but-is-it-finished%3F&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;Well. No. It&#39;s broken.&lt;/p&gt;
+&lt;p&gt;When i started I only had a bit of a largeish battery. It added to the
+weight stuck out at the bottom.
+&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-with_large_battery.jpg&quot; alt=&quot;with large battery&quot;&gt;&lt;/p&gt;
+&lt;p&gt;One nice thing with it thouhg was that it fitted nicely below the display.
+For ease of use I didn&#39;t solder the display directly onto the proto board.
+&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-battery_between.jpg&quot; alt=&quot;with large battery&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Later I got a new much much smaller battery. Yay! Soooo much lighter.
+&lt;img src=&quot;http://burningbroccoli.se/img/knitcounter/sm-small_battery.jpg&quot; alt=&quot;Knitcounter with small battery&quot;&gt;&lt;/p&gt;
+&lt;p&gt;But know the display stuck out from the proto borard in an ugly way,
+I couldn&#39;t have that could I? So off I went and soldered it directly
+onto the board.&lt;/p&gt;
+&lt;p&gt;Unfortunately, I must have done something wrong. It broke the display,
+its just black. Kaputt. Dead. Some testing leads me to believe the ATTiny85 is alive and kicking.&lt;/p&gt;
+&lt;p&gt;I bought a new, smaller display from Adafruit, but it doesn&#39;t have the
+same pin count so it&#39;s not a drop in replacement.&lt;/p&gt;
+&lt;p&gt;And here, as always, I got stuck. I have managed to procure a new display
+that looks to be of the same type as the old. One day I might try to
+remove the broken one. One day...&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>The foot counter</title>
+		<link href="http://burningbroccoli.se/projects/footcounter/"/>
+		<updated>2019-04-24T02:00:00+02:00</updated>
+		<id>http://burningbroccoli.se/projects/footcounter/</id>
+		<content type="html">&lt;video controls=&quot;&quot;&gt;
+    &lt;source src=&quot;http://burningbroccoli.se/img/footcounter/example.mp4&quot; type=&quot;video/mp4&quot;&gt;
+&lt;pre&gt;&lt;code&gt;Sorry, your browser doesn&#39;t support embedded videos.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/video&gt;
+&lt;p&gt;After I broke my first &lt;a href=&quot;http://burningbroccoli.se/projects/knittingcounter/&quot;&gt;knitting counter&lt;/a&gt; I had
+an idea: We all have a screen with us all the time, the phone. I know,
+not a new or a novel idea, and not the first time I thought of it.&lt;/p&gt;
+&lt;p&gt;(Tangent: I still think our phones are ridiculously underused for stuff.
+And I don&#39;t understand why I can&#39;t just plug it into my laptop and use
+the keyboard and screen?)&lt;/p&gt;
+&lt;p&gt;When you knit you usually use both hands. So why not use your feet!
+So I built a simple two key keyboard (with A and B buttons) and a web app
+to keep the count.&lt;/p&gt;
+&lt;h2 id=&quot;hardware&quot;&gt;Hardware &lt;a class=&quot;direct-link&quot; href=&quot;#hardware&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/footcounter/sm-assembled.jpg&quot; alt=&quot;knitting counter made for the foot&quot;&gt;&lt;/p&gt;
+&lt;p&gt;The Hardware is super simple:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://www.adafruit.com/product/3500&quot;&gt;Adafruit Trinket m0&lt;/a&gt; or &lt;a href=&quot;https://www.adafruit.com/product/1501&quot;&gt;Adafruit Trinket&lt;/a&gt;. Both works,
+but the m0 starts up more quickly and is easier to program.&lt;/li&gt;
+&lt;li&gt;A proto bord&lt;/li&gt;
+&lt;li&gt;two push buttons&lt;/li&gt;
+&lt;li&gt;some wiring&lt;/li&gt;
+&lt;li&gt;some sort of box&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;You can use internal pull-ups in the trinket so you don&#39;t even need a resistor.&lt;/p&gt;
+&lt;h2 id=&quot;code&quot;&gt;Code &lt;a class=&quot;direct-link&quot; href=&quot;#code&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;I&#39;ve lost the source code, but it was just a copy paste of
+&lt;a href=&quot;https://learn.adafruit.com/adafruit-trinket-m0-circuitpython-arduino/circuitpython-hid-keyboard-and-mouse&quot;&gt;Adafruits keyboard example&lt;/a&gt;. The
+only thing I changed was that i changed it to send &amp;quot;B&amp;quot; instead of
+&amp;quot;Hello World\n&amp;quot; (row 18).&lt;/p&gt;
+&lt;p&gt;This means that I now have a two key keyboard, yay!&lt;/p&gt;
+&lt;p&gt;The second part of this is the a simple web app with two counters.
+You can try it at &lt;a href=&quot;http://burningbroccoli.se/foot-counter/&quot;&gt;http://burningbroccoli.se/foot-counter/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The code for it is on &lt;a href=&quot;https://github.com/davidlgj/foot-counter&quot;&gt;davidlgj/foot-counter&lt;/a&gt;&lt;/p&gt;
+&lt;h2 id=&quot;but-is-it-finished%3F&quot;&gt;But is it finished? &lt;a class=&quot;direct-link&quot; href=&quot;#but-is-it-finished%3F&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;We&#39;ll, that depends on your definition of finished. It doesn&#39;t really work.
+So if that is a problem, then no, it&#39;s not finished.&lt;/p&gt;
+&lt;p&gt;What&#39;s wrong with it you might ask. Doesn&#39;t it up the counter when you press
+the buttons? It does, but you now what else a smart phone does? It goes to
+sleep when you&#39;re not using it! Which means you have to wake it up before
+you can use your foot to press the buttons... kinda defeats the purpose.&lt;/p&gt;
+&lt;p&gt;The embarrassing thing is that I didn&#39;t figure this out until I had a beta
+tester actually use it.&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>The clock</title>
+		<link href="http://burningbroccoli.se/projects/theclock/"/>
+		<updated>2019-07-24T02:00:00+02:00</updated>
+		<id>http://burningbroccoli.se/projects/theclock/</id>
+		<content type="html">&lt;video controls=&quot;&quot;&gt;
+    &lt;source src=&quot;http://burningbroccoli.se/img/clock/test.mp4&quot; type=&quot;video/mp4&quot;&gt;
+&lt;pre&gt;&lt;code&gt;Sorry, your browser doesn&#39;t support embedded videos.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/video&gt;
+&lt;p&gt;This is a work in progress. I got the idea from a &amp;quot;smart&amp;quot; clock I saw. It was quite nice.
+Looked like a brick with large colorful pixels. Can&#39;t find it anymore though. Anyway
+it could show the weather, mail etc. I liked it, but it was expensive (&amp;gt;€100) and closed
+to their app for control.&lt;/p&gt;
+&lt;p&gt;A bit later i saw &lt;a href=&quot;https://hackaday.com/2019/06/12/ikea-cloud-lamp-displays-the-weather-with-esp8266/&quot;&gt;this nice IKEA hack&lt;/a&gt;.
+Its a IKEA cloud lamp that changes color depending on the weather and even flashes for
+lightning storms! Very nice.&lt;/p&gt;
+&lt;h2 id=&quot;the-plan&quot;&gt;The plan &lt;a class=&quot;direct-link&quot; href=&quot;#the-plan&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The plan is to build a smart clock for my sons room, it would be super cool if it could
+be the hub for some kind of voice control, but first off I want it to tell what the
+weather will be for the upcoming day. I asked my son, and he&#39;d rather have an analog
+clock instead of a digital, so I bought a cheap ordinary wall clock. It had no numbering,
+I guess to look clean, so that is something I will need to fix in the future.&lt;/p&gt;
+&lt;p&gt;I wanted to line the clock with RGB leds so I could mark out the weather approximately
+where the hour mark is. This means the clock can tell the weather for the upcoming 12
+hours.&lt;/p&gt;
+&lt;p&gt;I&#39;m planning to use a Raspberry Pi Zero W for the brains of it.&lt;/p&gt;
+&lt;h2 id=&quot;the-build-so-far&quot;&gt;The build so far &lt;a class=&quot;direct-link&quot; href=&quot;#the-build-so-far&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/clock/sm-workspace.jpg&quot; alt=&quot;clock in my workspace&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Any sane person would here go and buy a nice Adafruit led
+strip and just line the edge of the clock with it. But I
+like to use what I already have in my stash, and one of the
+things I have are several
+&lt;a href=&quot;https://www.adafruit.com/product/1260&quot;&gt;Flora Neopixels&lt;/a&gt;
+(I bought two 20 packs that where on a ridiculous sale).&lt;/p&gt;
+&lt;p&gt;I decided to use 8 of them, to make it a bit easier to solder
+and to not overwhelm the Raspberry Pi Zero.&lt;/p&gt;
+&lt;p&gt;The neopixel needs 3 wires, power and a signal, and that
+sinal needs to be chained to the next pixel. That means
+three wires between each of them.&lt;/p&gt;
+&lt;p&gt;Looking around my workspace for some wire I happened to see
+some copper tape that I bought to experiment with. The tape
+is supposed to be used in the garden to create a barrier
+for slugs. It has a copper foil over a paper/plastic back.
+So you can&#39;t tape a circuit together, but you &lt;em&gt;can&lt;/em&gt; solder
+to it!&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/clock/sm-threelanes.jpg&quot; alt=&quot;copper tape as wires&quot;&gt;&lt;/p&gt;
+&lt;p&gt;The middle lane of tape is the signal, and since it needs
+to chain the neopixels together I took a flat screwdriver
+and just scraped away a spot where the neopixel should be.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/clock/sm-soldered.jpg&quot; alt=&quot;copper tape as wires&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Works like a charm! I also soldered three wires to it. The plan
+is to drill a hole through the backplate and place the raspberry
+pi zero on the back.&lt;/p&gt;
+&lt;p&gt;So now it&#39;s time for the software... and that&#39;s where it&#39;s
+hanging in limbo right now.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/clock/sm-soldered.jpg&quot; alt=&quot;copper tape as wires&quot;&gt;&lt;/p&gt;
+&lt;p&gt;Future plans involve speakers or buzzer for alarm, camera for
+keeping track of intruders (or waving to turn of alarm!)&lt;/p&gt;
+</content>
+	</entry>
+	
+	<entry>
+		<title>The mouse trap</title>
+		<link href="http://burningbroccoli.se/projects/mousetrap/"/>
+		<updated>2019-10-05T02:00:00+02:00</updated>
+		<id>http://burningbroccoli.se/projects/mousetrap/</id>
+		<content type="html">&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/mousetrap/sm-rigged.jpeg&quot; alt=&quot;rigged trap&quot;&gt;&lt;/p&gt;
+&lt;p&gt;We had a a problem. It was small furry and super cute. And it pooped
+everywhere. The mouse had already foiled a couple of traditional traps
+we set for it so I knew I had to take matters into my own hands.&lt;/p&gt;
+&lt;p&gt;This is actually not an unfinished project. Its not nice looking,
+well built or good code. &lt;strong&gt;But it caught the mouse!&lt;/strong&gt;&lt;/p&gt;
+&lt;h2 id=&quot;hardware&quot;&gt;Hardware &lt;a class=&quot;direct-link&quot; href=&quot;#hardware&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;PVC pipe&lt;/li&gt;
+&lt;li&gt;Two metal plates&lt;/li&gt;
+&lt;li&gt;Arduino&lt;/li&gt;
+&lt;li&gt;Small servo (small enough to be driven directly by the arduino)&lt;/li&gt;
+&lt;li&gt;Small metal pin, the kind use to fasten knitting needles&lt;/li&gt;
+&lt;li&gt;Duct tape&lt;/li&gt;
+&lt;li&gt;Popsicle sticks&lt;/li&gt;
+&lt;li&gt;Copper tape (I used the one used for keeping slugs out of your garden)&lt;/li&gt;
+&lt;li&gt;Some wooden planks&lt;/li&gt;
+&lt;li&gt;Some screws&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id=&quot;build&quot;&gt;Build &lt;a class=&quot;direct-link&quot; href=&quot;#build&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h2&gt;
+&lt;p&gt;The build is quite simple. A trigger at the end of a PVC pipe triggers a
+closing mechanism on the other side. The trick is that the pipe is so long
+the mouse doesn&#39;t have a chance to bolt.&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;http://burningbroccoli.se/img/mousetrap/sm-pressure_plate.jpg&quot; alt=&quot;trigger with peanut butter&quot;&gt;&lt;/p&gt;
+&lt;p&gt;The &amp;quot;pressure plate&amp;quot; is to popsicle sticks with copper tape on them.
+A bit of a broken popsicle stick in the middle keeps them from touching
+until the weight of the mouse is on it. Btw peanut butter is great for
+mouse traps.&lt;/p&gt;
+&lt;p&gt;The arduino code just polls with a &lt;code&gt;digitalRead&lt;/code&gt; and sweeps the servo
+at the first hint of any critters.&lt;/p&gt;
+&lt;h3 id=&quot;the-guillotine&quot;&gt;The guillotine &lt;a class=&quot;direct-link&quot; href=&quot;#the-guillotine&quot; aria-hidden=&quot;true&quot;&gt;#&lt;/a&gt;&lt;/h3&gt;
+&lt;video controls=&quot;&quot;&gt;
+    &lt;source src=&quot;http://burningbroccoli.se/img/mousetrap/test.mp4&quot; type=&quot;video/mp4&quot;&gt;
+&lt;pre&gt;&lt;code&gt;Sorry, your browser doesn&#39;t support embedded videos.
+&lt;/code&gt;&lt;/pre&gt;
+&lt;/video&gt;
+&lt;p&gt;The closing mechanism is super simple, the metal plate is a bit heavy and
+when the servo removes the pin it falls down. Sawing a bit down into the
+wood makes sure the mouse can&#39;t push get a hold and push it up.&lt;/p&gt;
+</content>
+	</entry>
+</feed>

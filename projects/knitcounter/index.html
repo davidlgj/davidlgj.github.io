@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The knit counter</title>
+    <meta name="Description" content="Keep track of your rows with this smallish digital knit counter">
+    <link rel="stylesheet" href="/css/index.css">
+    <link rel="stylesheet" href="/css/prism-dracula.css">
+    <link rel="alternate" href="/feed/feed.xml" type="application/atom+xml" title="David jensen -  Unfinished">
+  </head>
+  <body>
+    <header>
+      <h1 class="home"><a href="/">David jensen -  Unfinished</a></h1>
+      <ul class="nav"></ul>
+      <p>Why finish stuff when you can forget about it, and start something new?</p>
+    </header>
+
+    <main class="tmpl-post">
+      <h1>The knit counter</h1>
+
+<p><img src="/img/knitcounter/sm-small_battery_square.jpg" alt="Knitcounter with small battery"></p>
+<p>If you ever find yourself knitting a sweater you may notice that most knitting patterns has instructions like <code>repeat between * and * for 34 rows</code> or some such. And if you are like me your thoughts might wander,
+and, what row was I on now again?</p>
+<p>There are a lot of knit counters, and of course a lot apps. I wanted
+mine to be small and light. The dream was to be able to use it as
+the marker for start of round. This ways I couldn't possible miss
+pressing the button, counting up a new round.</p>
+<p><strong>CURRENT STATUS: broken</strong></p>
+<h2 id="build">Build <a class="direct-link" href="#build" aria-hidden="true">#</a></h2>
+<p><img src="/img/knitcounter/sm-circuit.jpg" alt="Circuit with attiny85"></p>
+<p>You can obviously build this a lot smaller, but I wanted to use stuff
+I already had at home.</p>
+<ul>
+<li>A way to large proto board that I sawed to smaller size.</li>
+<li>Large 12mm button</li>
+<li>Small 6mm button</li>
+<li>A AVR ATTiny85 micro controller</li>
+<li>A capacitor over the power to smooth it out. I've read that
+it's a good thing to have.</li>
+<li>0.96 Inches OLED i2c display.</li>
+<li>A Lithium-Polymer battery.</li>
+</ul>
+<h3 id="the-micro-controller">The micro controller <a class="direct-link" href="#the-micro-controller" aria-hidden="true">#</a></h3>
+<p>The ATTiny85 is a nice little bugger. If you are fine running it at 1MHz
+or 8MHz you don't need any external crystal, maybe just a capacitor. You
+can fake USB with the
+<a href="https://www.obdev.at/products/vusb/index.html">V-USB</a> project, play sounds
+with the high frequency PWM (at leas higher than a normal arduino). It
+also happens to have a very nice low power mode. You can send it to sleep
+and it will consume very little until an interrupt, triggered on one of
+it's pins, wakes it up. This is the main reason I choose this particular
+micro controller, more on that later in the &quot;code&quot; section!</p>
+<p>There are also several Arduino &quot;cores&quot; you can use, so it's easy to program.</p>
+<p>I had to build a small circuit so I could program it with my Atmel AVRRISP II.
+<img src="/img/knitcounter/sm-isp.jpg" alt="ISP Circuit"></p>
+<p>But you don't need to use a programmer! I just happen to have one,
+but in this case an <a href="https://create.arduino.cc/projecthub/arjun/programming-attiny85-with-arduino-uno-afb829">Arduino will do just fine.</a></p>
+<h3 id="the-display">The display <a class="direct-link" href="#the-display" aria-hidden="true">#</a></h3>
+<p><img src="/img/knitcounter/sm-screen_and_circuit.jpg" alt="Oled display"></p>
+<p>I had a smallish OLED display lying around, a gift from a friend. It is
+rather small, but for displaying just some numbers its quite the overkill.</p>
+<p>It's an i2c no-name display, but it has SSD1306 circuit on it like most other! I tried to get Adafruits <a href="https://github.com/adafruit/Adafruit_SSD1306">SSD1306</a> library working with it, but failed.</p>
+<p>After some googling I found another nice library: <a href="https://bitbucket.org/tinusaur/ssd1306xled">tinusaur/ssd1306xled</a>. With this I got
+some progress!</p>
+<p>For simplicity I used the font that came with the library, that gave
+quite small numbers, but hey it was a very simple to code 😃</p>
+<h3 id="the-code">The code <a class="direct-link" href="#the-code" aria-hidden="true">#</a></h3>
+<p>The code can be found at <a href="https://github.com/davidlgj/kniterator">https://github.com/davidlgj/kniterator</a></p>
+<p>I wanted the counter to a have a long battery life, preferably months.
+It wouldn't do if it lost power during a project. Since most of the time
+it just sits there, it's a perfect match for the deep sleep mode the
+ATTiny85 has.</p>
+<p>The code is simple, a one push of any of the buttons wakes it up. The
+display lights up and presents the current count. Pressing the large button
+increases the number, the smaller button decreases. After a couple of
+seconds it turns off the display and powers itself down again.</p>
+<p>There is lots of room for improvement, larger numbers for instance. You
+could also have several counters, use the small button to cycle between
+them. Large button to increase, long click to decrease.</p>
+<p>I also had plans to save the number to the small EEPROM inside the
+ATTiny85, so it never would loose count!</p>
+<h2 id="but-is-it-finished%3F">But is it finished? <a class="direct-link" href="#but-is-it-finished%3F" aria-hidden="true">#</a></h2>
+<p>Well. No. It's broken.</p>
+<p>When i started I only had a bit of a largeish battery. It added to the
+weight stuck out at the bottom.
+<img src="/img/knitcounter/sm-with_large_battery.jpg" alt="with large battery"></p>
+<p>One nice thing with it thouhg was that it fitted nicely below the display.
+For ease of use I didn't solder the display directly onto the proto board.
+<img src="/img/knitcounter/sm-battery_between.jpg" alt="with large battery"></p>
+<p>Later I got a new much much smaller battery. Yay! Soooo much lighter.
+<img src="/img/knitcounter/sm-small_battery.jpg" alt="Knitcounter with small battery"></p>
+<p>But know the display stuck out from the proto borard in an ugly way,
+I couldn't have that could I? So off I went and soldered it directly
+onto the board.</p>
+<p>Unfortunately, I must have done something wrong. It broke the display,
+its just black. Kaputt. Dead. Some testing leads me to believe the ATTiny85 is alive and kicking.</p>
+<p>I bought a new, smaller display from Adafruit, but it doesn't have the
+same pin count so it's not a drop in replacement.</p>
+<p>And here, as always, I got stuck. I have managed to procure a new display
+that looks to be of the same type as the old. One day I might try to
+remove the broken one. One day...</p>
+
+
+<p><a href="/">← Home</a></p>
+
+    </main>
+
+    <footer></footer>
+
+    <!-- Current page: /projects/knitcounter/ -->
+  </body>
+</html>
