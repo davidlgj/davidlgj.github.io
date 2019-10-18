@@ -55,8 +55,7 @@ ol[class] {
   list-style: none;
 }
 
-/* A elements that don't have a class get default styles */
-a:not([class]) {
+a {
   text-decoration-skip-ink: auto;
   color: #ea02f2;
 }
@@ -179,6 +178,7 @@ body {
 
 h1,h2,h3,h4,h5,h6 {
   margin-top: 30px;
+  text-transform: uppercase;
 }
 
 
@@ -255,7 +255,7 @@ header {
 }
 
 ol.projects  {
-  list-style: decimal;
+  list-style: decimal-leading-zero;
   padding-left: 0px;
   margin-top: 40px;
 }
