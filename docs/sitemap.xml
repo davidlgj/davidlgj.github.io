@@ -37,21 +37,6 @@
   </url>
   
   <url>
-    <loc>http://burningbroccoli.se/tags/trinketm0/</loc>
-    <lastmod>2019-10-03</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://burningbroccoli.se/tags/adafruit_trinket/</loc>
-    <lastmod>2019-10-03</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://burningbroccoli.se/tags/keyboard/</loc>
-    <lastmod>2019-10-03</lastmod>
-  </url>
-  
-  <url>
     <loc>http://burningbroccoli.se/tags/arduino/</loc>
     <lastmod>2019-10-03</lastmod>
   </url>
@@ -72,6 +57,26 @@
   </url>
   
   <url>
+    <loc>http://burningbroccoli.se/tags/trinketm0/</loc>
+    <lastmod>2019-10-03</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://burningbroccoli.se/tags/adafruit_trinket/</loc>
+    <lastmod>2019-10-03</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://burningbroccoli.se/tags/keyboard/</loc>
+    <lastmod>2019-10-03</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://burningbroccoli.se/tags/servo/</loc>
+    <lastmod>2019-10-03</lastmod>
+  </url>
+  
+  <url>
     <loc>http://burningbroccoli.se/tags/neopixel/</loc>
     <lastmod>2019-10-03</lastmod>
   </url>
@@ -88,11 +93,6 @@
   
   <url>
     <loc>http://burningbroccoli.se/tags/weather/</loc>
-    <lastmod>2019-10-03</lastmod>
-  </url>
-  
-  <url>
-    <loc>http://burningbroccoli.se/tags/servo/</loc>
     <lastmod>2019-10-03</lastmod>
   </url>
   
