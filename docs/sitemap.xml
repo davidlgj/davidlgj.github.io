@@ -72,11 +72,6 @@
   </url>
   
   <url>
-    <loc>http://burningbroccoli.se/tags/servo/</loc>
-    <lastmod>2019-10-03</lastmod>
-  </url>
-  
-  <url>
     <loc>http://burningbroccoli.se/tags/neopixel/</loc>
     <lastmod>2019-10-03</lastmod>
   </url>
@@ -93,6 +88,11 @@
   
   <url>
     <loc>http://burningbroccoli.se/tags/weather/</loc>
+    <lastmod>2019-10-03</lastmod>
+  </url>
+  
+  <url>
+    <loc>http://burningbroccoli.se/tags/servo/</loc>
     <lastmod>2019-10-03</lastmod>
   </url>
   
